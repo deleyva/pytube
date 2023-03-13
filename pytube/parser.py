@@ -31,7 +31,7 @@ def parse_for_all_objects(html, preceding_regex):
             else:
                 result.append(obj)
 
-    if len(result) == 0:
+    if not result:
         raise HTMLParseError(f'No matches for regex {preceding_regex}')
 
     return result
@@ -83,9 +83,7 @@ def find_object_from_startpoint(html, start_point):
         '"': '"'
     }
 
-    while i < len(html):
-        if len(stack) == 0:
-            break
+    while i < len(html) and stack:
         curr_char = html[i]
         curr_context = stack[-1]
 
@@ -102,15 +100,12 @@ def find_object_from_startpoint(html, start_point):
             if curr_char == '\\':
                 i += 2
                 continue
-        else:
-            # Non-string contexts are when we need to look for context openers.
-            if curr_char in context_closers.keys():
-                stack.append(curr_char)
+        elif curr_char in context_closers:
+            stack.append(curr_char)
 
         i += 1
 
-    full_obj = html[:i]
-    return full_obj  # noqa: R504
+    return html[:i]
 
 
 def parse_for_object_from_startpoint(html, start_point):
