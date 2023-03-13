@@ -31,13 +31,13 @@ def test_filesize(cipher_signature):
     assert cipher_signature.streams[0].filesize == 3399554
     
 def test_filesize_kb(cipher_signature):
-    assert cipher_signature.streams[0].filesize_kb == float(3319.877)
+    assert cipher_signature.streams[0].filesize_kb == 3319.877
 
 def test_filesize_mb(cipher_signature):
-    assert cipher_signature.streams[0].filesize_mb == float(3.243)
+    assert cipher_signature.streams[0].filesize_mb == 3.243
 
 def test_filesize_gb(cipher_signature):
-    assert cipher_signature.streams[0].filesize_gb == float(0.004)
+    assert cipher_signature.streams[0].filesize_gb == 0.004
 
 def test_filesize_approx(cipher_signature):
     stream = cipher_signature.streams[0]
@@ -331,7 +331,7 @@ def test_segmented_stream_on_404(cipher_signature):
             response_headers = [
                 {
                     'content-length': len(r),
-                    'Content-Range': '0-%s/%s' % (str(len(r)), str(len(r)))
+                    'Content-Range': f'0-{len(r)}/{len(r)}',
                 }
                 for r in responses
             ]
